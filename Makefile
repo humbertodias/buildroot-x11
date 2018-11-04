@@ -1,7 +1,9 @@
 BUILDROOT_DIR=buildroot-master
 BUILDROOT_DEFCONFIG=qemu_x86_defconfig
 #BUILDROOT_DEFCONFIG=raspberrypi3_qt5we_defconfig
-
+dep:
+	sudo apt install perl bc rsync
+	
 get:
 	wget -qc https://github.com/buildroot/buildroot/archive/master.zip 
 	unzip -o master.zip
