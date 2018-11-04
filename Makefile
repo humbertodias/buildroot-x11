@@ -1,9 +1,12 @@
+MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+MKFILE_DIR  := $(dir $(MKFILE_PATH))
+
 BUILDROOT_DIR=buildroot-master
 BUILDROOT_DEFCONFIG=qemu_x86_defconfig
 #BUILDROOT_DEFCONFIG=raspberrypi3_qt5we_defconfig
 
 docker:
-	docker run -v $(pwd):/br -ti debian
+	docker run -v $(MKFILE_DIR):/br -w /br -ti debian
 
 dep:
 	apt update -y && \
