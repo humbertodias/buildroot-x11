@@ -9,8 +9,8 @@ docker:
 	docker run -v $(MKFILE_DIR):/br -w /br -ti debian
 
 dep:
-	sudo apt update -y && \
-	sudo apt install -y git build-essential wget unzip time file cpio python bc rsync
+	apt update -y && \
+	apt install -y git build-essential wget unzip time file cpio python bc rsync
 
 get:	dep
 	wget -qO- https://github.com/buildroot/buildroot/archive/master.tar.gz | tar xvfz -
