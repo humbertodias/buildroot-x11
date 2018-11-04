@@ -10,11 +10,10 @@ docker:
 
 dep:
 	apt update -y && \
-	apt install -y git build-essential wget unzip time file cpio python perl bc rsync
+	apt install -y git build-essential wget unzip time file cpio python bc rsync
 
 get:	dep
-	wget -qc https://github.com/buildroot/buildroot/archive/master.zip 
-	unzip -o master.zip
+	wget -qO- https://github.com/buildroot/buildroot/archive/master.zip | busybox unzip -
 
 build:	get
 	cd $(BUILDROOT_DIR) && \
@@ -33,4 +32,4 @@ qemu:
 	-net user
 
 clean:
-	rm -rf buildroot-master master.zip
+	rm -rf buildroot-master
