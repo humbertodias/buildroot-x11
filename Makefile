@@ -2,13 +2,14 @@ BUILDROOT_DIR=buildroot-master
 BUILDROOT_DEFCONFIG=qemu_x86_defconfig
 #BUILDROOT_DEFCONFIG=raspberrypi3_qt5we_defconfig
 
-dep-add:
-	sudo apk add perl bc rsync
+docker:
+	docker run -v $(pwd):/br -ti debian
 
-dep-apk:
-	sudo apt install perl bc rsync
+dep:
+	apt update -y && \
+	apt install -y git build-essential wget unzip time file cpio python perl bc rsync
 
-get:
+get:	dep
 	wget -qc https://github.com/buildroot/buildroot/archive/master.zip 
 	unzip -o master.zip
 
