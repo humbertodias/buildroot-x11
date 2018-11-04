@@ -9,7 +9,7 @@ BUILDROOT_DEFCONFIG=qemu_x86_defconfig
 #BUILDROOT_DEFCONFIG=raspberrypi3_qt5we_defconfig
 
 docker-build:
-	docker build --no-cache -t buildroot-builder .
+	docker build -t buildroot-builder .
 
 run:	docker-build
 	docker run \

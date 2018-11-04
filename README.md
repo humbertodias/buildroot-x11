@@ -1,4 +1,5 @@
 # buildroot-x11
 
-    make run && exit
+    make run
+    make build && exit
     make qemu
