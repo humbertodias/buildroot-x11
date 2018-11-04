@@ -6,14 +6,14 @@ BUILDROOT_DEFCONFIG=qemu_x86_defconfig
 #BUILDROOT_DEFCONFIG=raspberrypi3_qt5we_defconfig
 
 docker:
-	docker run -v $(MKFILE_DIR):/br -w /br -ti debian
+	docker run -v $(MKFILE_DIR):/br -w /br -ti sublimino/debian-build-essential
 
 dep:
 	apt update -y && \
 	apt install -y git build-essential wget unzip time file cpio python bc rsync
 
 get:	dep
-	wget -qO- https://github.com/buildroot/buildroot/archive/master.tar.gz | tar xvfz -
+	wget --no-check-certificate -qO- https://github.com/buildroot/buildroot/archive/master.tar.gz | tar xvfz -
 
 build:	get
 	cd $(BUILDROOT_DIR) && \
