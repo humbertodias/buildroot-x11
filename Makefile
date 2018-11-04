@@ -1,24 +1,30 @@
 MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 MKFILE_DIR  := $(dir $(MKFILE_PATH))
 
+UID  := $(shell id -u $(USER))
+GID  := $(shell id -u $(USER))
+
 BUILDROOT_DIR=buildroot-master
 BUILDROOT_DEFCONFIG=qemu_x86_defconfig
 #BUILDROOT_DEFCONFIG=raspberrypi3_qt5we_defconfig
 
-docker:
-	docker run -v $(MKFILE_DIR):/br -w /br -ti sublimino/debian-build-essential
+docker-build:
+	docker build --no-cache -t buildroot-builder .
 
-dep:
-	apt update -y && \
-	apt install -y git build-essential wget unzip time file cpio python bc rsync
+run:	docker-build
+	docker run \
+	-v $(MKFILE_DIR):/br \
+	-w /br \
+	-u $(UID):$(GID) \
+	-ti buildroot-builder
 
-get:	dep
+get:
 	wget --no-check-certificate -qO- https://github.com/buildroot/buildroot/archive/master.tar.gz | tar xvfz -
 
 build:	get
 	cd $(BUILDROOT_DIR) && \
 	make $(BUILDROOT_DEFCONFIG) && \
-	time make -j
+	time make
 
 qemu:
 	qemu-system-i386 \
