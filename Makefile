@@ -1,12 +1,15 @@
 MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-MKFILE_DIR  := $(dir $(MKFILE_PATH))
+MKFILE_DIR  := "$(dir $(MKFILE_PATH))"
 
 UID  := $(shell id -u $(USER))
 GID  := $(shell id -u $(USER))
 
-BUILDROOT_DIR=buildroot-master
+BUILDROOT_DIR=buildroot
 BUILDROOT_DEFCONFIG=qemu_x86_defconfig
 #BUILDROOT_DEFCONFIG=raspberrypi3_qt5we_defconfig
+
+#BUILDROOT_URL=https://github.com/buildroot/buildroot/archive/master.tar.gz
+BUILDROOT_URL=https://buildroot.org/downloads/buildroot-2018.08.2.tar.gz
 
 docker-build:
 	docker build -t buildroot-builder .
@@ -17,9 +20,10 @@ run:	docker-build
 	-w /br \
 	-u $(UID):$(GID) \
 	-ti buildroot-builder
-
+	
 get:
-	wget --no-check-certificate -qO- https://github.com/buildroot/buildroot/archive/master.tar.gz | tar xvfz -
+	wget --no-check-certificate -qO- $(BUILDROOT_URL) | tar xvfz -
+	ln -s buildroot-* buildroot
 
 build:	get
 	cd $(BUILDROOT_DIR) && \
@@ -38,4 +42,4 @@ qemu:
 	-net user
 
 clean:
-	rm -rf buildroot-master
+	rm -rf buildroot-*
