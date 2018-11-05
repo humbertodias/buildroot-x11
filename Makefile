@@ -42,4 +42,5 @@ qemu:
 	-net user
 
 clean:
-	rm -rf buildroot-*
+	rm -rf buildroot-* 
+	unlink buildroot
